@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/api/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header__row">
+                    <div class="header__logo">
+                        <a href="#" class="logo-link">WebSite</a>
+                    </div>
+                    <div class="header__navigation">
+                        <nav>
+                            <ul>
+                                <li class="nav-list"><a href="" class="nav-link">Docs</a></li>
+                                <li class="nav-list"><a href="" class="nav-link">About</a></li>
+                                <li class="nav-list"><a href="" class="nav-link">Support Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="main__heading">
+                <h1>Artists</h1>
+            </div>
+            <div class="main__info">
+                <div class="container">
+                    <div class="main__row">
+                        <div class="main__content">
+                            <article class="grid__box">
+                                {{range .}}
+                                <div class="small__box">
+                                    <img src="{{ .Artist.Image }}" alt="">
+                                    <div class="small__content">
+                                        <h2><a href="artists/{{.Artist.Id}}" class="artist-name-link">{{.Artist.Name}}</a> </h2>
+                                        <p>Один из городов:</p>
+                                        {{ range $key, $value := .Relation.DatesLocations}}
+                                        <p>Город: <span class="city">{{ $key }}</span></p>
+                                        <p>Даты проведения: </p>
+                                        <p class="date">{{ . }}</p>
+                                        {{ end}}
+                                    </div>
+                                </div>
+                                {{end}}
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__row">
+                    <div class="footer__content">
+                        <h3><a href="https://groupietrackers.herokuapp.com/api/artists">Artists: 52</a></h3>
+                        <h3><a href="https://groupietrackers.herokuapp.com/api/locations">Locations: 870</a></h3>
+                        <h3><a href="https://groupietrackers.herokuapp.com/api/dates">Dates: 1256</a></h3>
+                        <h3><a href="https://groupietrackers.herokuapp.com/api/relation">Relation: 870</a></h3>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="static/api/main.js"></script>
+</body>
+
+</html>
