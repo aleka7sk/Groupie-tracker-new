@@ -6,7 +6,7 @@ import (
 )
 
 func RegisterHTTPEndpoints(router *http.ServeMux, auc internal.ArtistsUseCase) {
-	fs := http.FileServer(http.Dir("../../static"))
+	fs := http.FileServer(http.Dir("./static"))
 	h := NewHandler(auc)
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 	router.HandleFunc("/", h.Index)

@@ -16,11 +16,11 @@ func NewService(repository internal.ArtistsRepository) internal.ArtistsUseCase {
 	return &service{repository: repository}
 }
 
-func (h *service) GetArtists(ctx context.Context) ([]*models.Artist, error) {
+func (h *service) GetGroups(ctx context.Context) (*models.Groups, error) {
 	return h.repository.GetAll(ctx)
 }
 
-func (h *service) GetArtistById(ctx context.Context, id int) (*models.Artist, error) {
+func (h *service) GetGroupById(ctx context.Context, id int) (*models.Group, error) {
 	return h.repository.GetOne(ctx, 1)
 }
 

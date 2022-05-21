@@ -6,7 +6,7 @@ import (
 )
 
 type ArtistsUseCase interface {
-	GetArtists(ctx context.Context) ([]*models.Artist, error)
-	GetArtistById(ctx context.Context, id int) (*models.Artist, error)
+	GetGroups(ctx context.Context) (*models.Groups, error)
+	GetGroupById(ctx context.Context, id int) (*models.Group, error)
 	Create(ctx context.Context)
 }

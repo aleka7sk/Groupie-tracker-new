@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"fmt"
 	"groupie-tracker-new/internal"
 	"groupie-tracker-new/internal/domain/usecase"
 	"groupie-tracker-new/models"
@@ -12,7 +13,7 @@ import (
 	"strings"
 )
 
-var path = "../../templates/"
+var path = "./templates/"
 
 type Handler struct {
 	usecase internal.ArtistsUseCase
@@ -36,19 +37,18 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// result := artists.ParseApi("https://groupietrackers.herokuapp.com/api/artists")
-	// fmt.Println(result)
-	// artist_id := usecase.ArtistIdInit()
-	// artist_id.ParseApi("https://groupietrackers.herokuapp.com/api/relation")
-
-	// data := usecase.ConnectData(artists, artist_id)
-
-	tmpl.Execute(w, nil)
+	data, err := h.usecase.GetGroups(r.Context())
+	if err != nil {
+		log.Fatalf("Can't take groups: %v", err)
+	}
+	fmt.Println(data.Groups[0])
+	tmpl.Execute(w, data)
 }
 
 func (h *Handler) GetJson(w http.ResponseWriter, r *http.Request) {
 	id := strings.TrimPrefix(r.URL.Path, "/artists/")
 	w.Header().Set("Content-Type", "application/json")
+
 	data := usecase.Data
 	var response models.FullInfo
 	for _, elem := range data {

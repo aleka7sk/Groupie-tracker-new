@@ -3,12 +3,11 @@ package postgres
 import (
 	"context"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"groupie-tracker-new/internal"
 	"groupie-tracker-new/models"
 	"log"
-	"net/http"
+
+	"github.com/lib/pq"
 )
 
 type ArtistsRepo struct {
@@ -21,33 +20,28 @@ func NewArtistsRepository(db *sql.DB) internal.ArtistsRepository {
 	}
 }
 
-func (ar ArtistsRepo) GetAll(ctx context.Context) ([]*models.Artist, error) {
-	// sqlQuery := `SELECT * FROM groupie_tracker_artists`
-	// result := []*models.Artist{}
-	// rows, err := ar.db.QueryContext(ctx, sqlQuery)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	return nil, nil
+func (ar ArtistsRepo) GetAll(ctx context.Context) (*models.Groups, error) {
+	groups := models.Groups{}
+	sqlQuery := `SELECT * FROM group_name`
+	rows, err := ar.db.Query(sqlQuery)
+	if err != nil {
+		log.Fatalf("Select query %v", err)
+	}
+	for rows.Next() {
+		group := models.Group{}
+		if err := rows.Scan(&group.Id, &group.Image, &group.Name, pq.Array(&group.Members), &group.CreationDate, &group.FirstAlbum, &group.Locations, &group.ConcertDates, &group.Relations); err != nil {
+			panic(err)
+		}
+		groups.Groups = append(groups.Groups, group)
+
+	}
+
+	return &groups, nil
 }
 
-func (ar ArtistsRepo) GetOne(ctx context.Context, id int) (*models.Artist, error) {
+func (ar ArtistsRepo) GetOne(ctx context.Context, id int) (*models.Group, error) {
 	return nil, nil
 }
 
 func (ar ArtistsRepo) Create(ctx context.Context) {
-	fmt.Println("Start create Artists")
-	sqlQuery := `INSERT INTO groupie_tracker_artists(artists) VALUES($1)`
-	var err error
-
-	artists_information, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	if err != nil {
-		log.Print(err)
-	}
-	artists := models.Artists{}
-	json.NewDecoder(artists_information.Body).Decode(&artists.Artists)
-	fmt.Println("Checkpoint1")
-	row := ar.db.QueryRowContext(ctx, sqlQuery, artists.Artists)
-	err = row.Scan()
-	fmt.Println(err)
 }

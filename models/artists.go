@@ -1,10 +1,10 @@
 package models
 
-type Artists struct {
-	Artists []Artist
+type Groups struct {
+	Groups []Group
 }
 
-type Artist struct {
+type Group struct {
 	Id           int      `json:"id"`
 	Image        string   `json:"image"`
 	Name         string   `json:"name"`
@@ -16,7 +16,7 @@ type Artist struct {
 	Relations    string   `json:"relations"`
 }
 
-type ArtistId struct {
+type GroupId struct {
 	Index []Relations `json:"index"`
 }
 
@@ -26,6 +26,6 @@ type Relations struct {
 }
 
 type FullInfo struct {
-	Artist   Artist
+	Artist   Group
 	Relation Relations
 }

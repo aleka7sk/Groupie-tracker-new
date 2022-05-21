@@ -37,18 +37,17 @@
                 <div class="container">
                     <div class="main__row">
                         <div class="main__content">
-                            <article class="grid__box">
-                                {{range .}}
+                            <article class="grid__box"> 
+                                {{range .Groups }}
                                 <div class="small__box">
-                                    <img src="{{ .Artist.Image }}" alt="">
+                                    <img src="{{ .Image }}" alt="">
                                     <div class="small__content">
-                                        <h2><a href="artists/{{.Artist.Id}}" class="artist-name-link">{{.Artist.Name}}</a> </h2>
+                                        <h2><a href="artists/{{.Id}}" class="artist-name-link">{{ .Name }}</a> </h2>
                                         <p>Один из городов:</p>
-                                        {{ range $key, $value := .Relation.DatesLocations}}
-                                        <p>Город: <span class="city">{{ $key }}</span></p>
-                                        <p>Даты проведения: </p>
-                                        <p class="date">{{ . }}</p>
-                                        {{ end}}
+                                        
+                                        <p>Город: <span class="city">{{ .Relations }}</span></p>
+                                        <!-- <p>Даты проведения: </p>
+                                        <p class="date">{{ . }}</p> -->
                                     </div>
                                 </div>
                                 {{end}}
